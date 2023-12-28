@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+
+*{
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+font-family: 'Tajawal', sans-serif;
+direction: rtl;
+
+}
+
+h1,h2,h3,h4,h5,h6{
+   color:'#383838'
+    
+    }
+    p ,span ,label{
+   color: "#4E4D4D";
+    }
+    .card {
+       
+        border: 1px solid #DBE1E8 !important;
+      }
+
+@media (max-width:992px) {
+   
+    h1,h2,h3,h4,h5,h6{
+    font-size: 25px !important;
+    
+    }
+    p{
+    font-size: 17px !important;
+    font-weight: 400;
+    }
+    .btn{
+    padding: 10px 30px !important;
+    font-size: 12px !important;
+    
+    }
+     .kindfoods ,.kindfoods2 ,.kindfoods3{
+    display: none;
+    
+    }
+    .card {
+      width:18rem!important;
+      border: 1px solid #DBE1E8 !important;
+    }
+
+    .reveiws  {
+        width:20rem!important;
+        
+        }
+
+
+        .reveiws-title{
+         font-size: 17px !important;
+        }
+        
+    .swiper-button_next , .swiper-button_prev
+    {
+    padding: 15px !important;
+    }
+}
