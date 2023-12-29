@@ -15,7 +15,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import "aos/dist/aos.css"
 import Products from '../component/Products/Products';
-import meat from '../assets/icons/meat.png'
+import meat from '../assets/icons/Meat.png'
 import gluten from '../assets/icons/gluten.png'
 import brazil_Nut from '../assets/icons/Brazil_Nut.png'
 import Footer from '../component/Footer';
@@ -31,7 +31,7 @@ const Home = () => {
       <div
         style={{
           minHeight: "100vh",
-          background: "rgb(9,121,26)",
+        
           background:
             "linear-gradient(90deg, rgba(109,193,119,1) 31%, rgba(251, 255, 251, 1) 31%)",
         }}
