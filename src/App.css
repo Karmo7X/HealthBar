@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
 
+/* ::root {
+  --maincolor: #6DC177;
+  --secondarycolor: #FBFFFB;
+  --darkgray: #383838;
+  --lightgray: #CECECE;
+  --green: #6DC177;
+} */
 
 *{
 padding: 0;
@@ -17,10 +24,54 @@ h1,h2,h3,h4,h5,h6{
     p ,span ,label{
    color: "#4E4D4D";
     }
+    ::-webkit-scrollbar {
+      width: 5px;
+      background-color:#CECECE;
+      border-radius: 20px ;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background-color: #8a8a8a; /* Change this to your desired color */
+      border-radius: 20px ;
+    }
+  
     .card {
        
         border: 1px solid #DBE1E8 !important;
       }
+
+      .add-cart-btn:hover 
+      {
+       color:#ffffff  !important;
+       background:linear-gradient(180deg, #6DC177 0%, #13793D 100%) !important;
+      }  
+      .btn:hover{
+        background-color:transparent !important;
+      } 
+      .filter-category
+      {
+        cursor: pointer;
+      }
+      .filter-category:hover
+      {
+       color: #6DC177 !important;
+      
+      }
+      .btn-filter:hover
+      {
+        color:#ffffff  !important;
+        background: #6DC177 !important;
+        border: none !important;
+      }
+      .login-btn:hover
+      {
+        color:#ffffff  !important;
+      }
+      .links:hover
+      {
+        color:#383838 !important;
+      }
+    
 
 @media (max-width:992px) {
    
@@ -60,4 +111,21 @@ h1,h2,h3,h4,h5,h6{
     {
     padding: 15px !important;
     }
+     .login-btn
+    {
+      color: #ffffff !important;
+      background:#6DC177 !important;
+      position: fixed;
+      bottom: 5%;
+     
+    }
+    .links
+    {
+      color:#383838 !important;
+    }
+    .btn-filter
+    {
+      font-size: 10px !important;
+         }
+    
 }

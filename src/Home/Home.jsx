@@ -20,6 +20,7 @@ import gluten from '../assets/icons/gluten.png'
 import brazil_Nut from '../assets/icons/Brazil_Nut.png'
 import Footer from '../component/Footer';
 import Reviews from '../component/Reviews/Reviews';
+import { Link } from 'react-router-dom';
 const Home = () => {
   useEffect(()=>
   {
@@ -28,10 +29,11 @@ const Home = () => {
   },[])
   return (
     <>
+    <div style={{  minHeight: "100vh",}}>
       <div
         style={{
           minHeight: "100vh",
-          background: "rgb(9,121,26)",
+         
           background:
             "linear-gradient(90deg, rgba(109,193,119,1) 31%, rgba(251, 255, 251, 1) 31%)",
         }}
@@ -60,8 +62,8 @@ const Home = () => {
                   </Offcanvas.Header>
                   <Offcanvas.Body>
                     <Nav className="justify-content-center flex-grow-1 pe-3">
-                      <Nav.Link href="#action1" style={{ fontWeight: "800" }}>
-                        قائمة الطعام
+                      <Nav.Link  style={{ fontWeight: "800" }}>
+                      <Link to='Foodmenu' className='text-decoration-none text-dark'>قائمة الطعام</Link>
                       </Nav.Link>
                       <Nav.Link href="#action2" style={{ fontWeight: "800" }}>
                         طبقك الخاص
@@ -82,7 +84,7 @@ const Home = () => {
                     </Nav>
                     <Form className="d-flex mx-5">
                       <Button
-                        variant="outline-success"
+                        variant="outline-success login-btn"
                         style={{
                           padding: "10px 50px",
                           fontWeight: "500",
@@ -271,11 +273,13 @@ const Home = () => {
       </div>
      </div>
      </div>
-     <div className="mt-5 mb-5 p-2" data-aos="fade-up">
+     {/* <div className="mt-5 mb-5 p-2" data-aos="fade-up">
      <h2 className='text-end mb-5'> أراء عملائنا </h2>
       <Reviews/>
-     </div>
+     </div> */}
       </div>
+    </div>
+      
       
 
       <div>

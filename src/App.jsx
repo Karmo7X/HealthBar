@@ -5,6 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './Home/Home';
+import Foodmenu from './Foodmenu/Foodmenu';
 function App() {
  
 
@@ -15,7 +16,7 @@ function App() {
      <Routes> 
        <Route index element={<Home/>}/>
       <Route path='/' element={<Layout/>}>
-    
+      <Route path='Foodmenu' element={<Foodmenu/>}/>
 
       </Route>
      </Routes>

@@ -162,7 +162,7 @@ const Products = () => {
     </div>
    <div className='d-flex align-items-center justify-content-between  mt-4'>
    <Button
-                        variant="outline-success "
+                        variant="outline-success add-cart-btn"
                         style={{
                           padding: "10px 50px",
                           fontWeight: "500",

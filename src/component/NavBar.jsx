@@ -6,15 +6,17 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import logo from '../assets/LogoHealthBar.png'
+import logo2 from '../assets/logo2.png'
+import { Link } from 'react-router-dom';
 const NavBar = () => {
   return (
     <>
     {['lg'].map((expand) => (
-        <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+        <Navbar key={expand} expand={expand} className="fixed-top mb-3" style={{background:"#6DC177"}}>
           <Container fluid>
-            <Navbar.Brand href="#">
-                <img src={logo} alt="" className='img-fluid' />
+            <Navbar.Brand >
+              <Link to='/' className='text-decoration-none' ><img src={logo2} alt="" className='img-fluid' /></Link>
+                
             </Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
@@ -28,9 +30,13 @@ const NavBar = () => {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-center flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">قائمة الطعام</Nav.Link>
-                  <Nav.Link href="#action2">طبقك الخاص</Nav.Link>
+                <Nav className="justify-content-center flex-grow-1 pe-3" style={{fontWeight:"800" ,color:'#fff'}}>
+                  <Nav.Link > 
+                  <Link to='Foodmenu' className='text-decoration-none  links'style={{fontWeight:"800" ,color:'#fff'}} >قائمة الطعام</Link>
+                  </Nav.Link>
+                  <Nav.Link>
+                  <Link to='' className='text-decoration-none  links' style={{fontWeight:"800" ,color:'#fff'}}>طبقك الخاص </Link> 
+                  </Nav.Link>
                   {/* <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
@@ -47,7 +53,7 @@ const NavBar = () => {
                 </Nav>
                 <Form className="d-flex mx-5">
                   
-                  <Button  variant="outline-success" style={{padding:'10px 50px' ,borderRadius:"20px" ,color:"#383838"}}>تسجيل الدخول</Button>
+                  <Button  variant="outline-success login-btn" style={{padding:'10px 50px' ,borderRadius:"20px",fontWeight:"500" ,color:"#383838" ,background:'#ffffff'}}>تسجيل الدخول</Button>
                 </Form>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
