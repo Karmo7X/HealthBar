@@ -15,7 +15,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import "aos/dist/aos.css"
 import Products from '../component/Products/Products';
-import meat from '../assets/icons/meat.png'
+import meat from '../assets/icons/Meat.png'
 import gluten from '../assets/icons/gluten.png'
 import brazil_Nut from '../assets/icons/Brazil_Nut.png'
 import Footer from '../component/Footer';

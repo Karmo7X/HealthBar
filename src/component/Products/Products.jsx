@@ -126,7 +126,7 @@ const Products = () => {
          slidesPerView: 1,
       },
       390: {
-         slidesPerView: 1.5,
+         slidesPerView: 1,
       },
       502: {
          slidesPerView: 2,

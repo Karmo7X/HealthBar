@@ -125,26 +125,26 @@ const Reviews = () => {
         ref={SlideRef}
         onSlideChange={onSlideChange}
         
-        breakpoints={{
-          0: {
-             slidesPerView: 1,
-          },
-          390: {
-             slidesPerView: 1.5,
-          },
-          502: {
-             slidesPerView: 1,
-          },
-          802: {
-             slidesPerView: 2,
-          },
-          992: {
-             slidesPerView: 2,
-          },
-          1200: {
-             slidesPerView: 2,
-          },
-       }}
+         breakpoints={{
+      0: {
+         slidesPerView: 1,
+      },
+      390: {
+         slidesPerView: 1,
+      },
+      502: {
+         slidesPerView: 2,
+      },
+      802: {
+         slidesPerView: 3,
+      },
+      992: {
+         slidesPerView: 3,
+      },
+      1200: {
+         slidesPerView: 3,
+      },
+   }}
        
         
       >
