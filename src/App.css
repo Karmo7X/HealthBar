@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
 
 /* ::root {
   --maincolor: #6DC177;
@@ -8,124 +8,186 @@
   --green: #6DC177;
 } */
 
-*{
-padding: 0;
-margin: 0;
-box-sizing: border-box;
-font-family: 'Tajawal', sans-serif;
-direction: rtl;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Tajawal", sans-serif;
+  direction: rtl;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: "#383838";
+}
+p,
+span,
+label {
+  color: "#4E4D4D";
+}
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: #cecece;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8a8a8a; /* Change this to your desired color */
+  border-radius: 20px;
+}
+
+.card {
+  border: 1px solid #dbe1e8 !important;
+}
+
+.add-cart-btn:hover {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, #6dc177 0%, #13793d 100%) !important;
+}
+.btn:hover {
+  background-color: transparent !important;
+}
+.filter-category {
+  cursor: pointer;
+}
+.filter-category:hover  {
+  color: #6dc177 !important;
+}
+
+.search_btn:hover
+{
+  color: #ffffff !important;
+  background: #6dc177 !important;
+  border-right:1px solid #CECECE;
+ 
+}
+.btn-filter:hover ,.search_btn:hover {
+  color: #ffffff !important;
+  background: #6dc177 !important;
+  border: none !important;
+}
+.login-btn:hover {
+  color: #ffffff !important;
+}
+.links:hover {
+  color: #383838 !important;
+}
+
+
+.accordion-button::after{
+  margin-right:auto !important;
+  margin-left: 0 !important;
+  display: flex;
+  justify-content: end !important;
+
+
+}
+.hidden-arrow::after
+{
+  display: none !important;
+}
+.dropdown-menu{
+width: 300px;
 
 }
 
-h1,h2,h3,h4,h5,h6{
-   color:'#383838'
-    
-    }
-    p ,span ,label{
-   color: "#4E4D4D";
-    }
-    ::-webkit-scrollbar {
-      width: 5px;
-      background-color:#CECECE;
-      border-radius: 20px ;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background-color: #8a8a8a; /* Change this to your desired color */
-      border-radius: 20px ;
-    }
-  
-    .card {
-       
-        border: 1px solid #DBE1E8 !important;
-      }
 
-      .add-cart-btn:hover 
-      {
-       color:#ffffff  !important;
-       background:linear-gradient(180deg, #6DC177 0%, #13793D 100%) !important;
-      }  
-      .btn:hover{
-        background-color:transparent !important;
-      } 
-      .filter-category
-      {
-        cursor: pointer;
-      }
-      .filter-category:hover
-      {
-       color: #6DC177 !important;
-      
-      }
-      .btn-filter:hover
-      {
-        color:#ffffff  !important;
-        background: #6DC177 !important;
-        border: none !important;
-      }
-      .login-btn:hover
-      {
-        color:#ffffff  !important;
-      }
-      .links:hover
-      {
-        color:#383838 !important;
-      }
-    
-
-@media (max-width:992px) {
-   
-    h1,h2,h3,h4,h5,h6{
+@media (min-width:992px) {
+  .offcanvas-lg {
+    display: none !important;
+  }
+ 
+}
+@media (max-width: 992px) {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-size: 25px !important;
-    
-    }
-    p{
+  }
+  h5,
+  h6
+  {
+    font-size: 20px !important;
+  }
+  p {
     font-size: 17px !important;
     font-weight: 400;
-    }
-    .btn{
+  }
+  .btn {
     padding: 10px 30px !important;
     font-size: 12px !important;
-    
-    }
-     .kindfoods ,.kindfoods2 ,.kindfoods3{
+  }
+  .kindfoods,
+  .kindfoods2,
+  .kindfoods3 {
     display: none;
-    
-    }
-    .card {
-      width:18rem!important;
-      border: 1px solid #DBE1E8 !important;
-    }
+  }
+  .card {
+    width: 18rem !important;
+    border: 1px solid #dbe1e8 !important;
+  }
 
-    .reveiws  {
-        width:20rem!important;
-        
-        }
+  .reveiws {
+    width: 20rem !important;
+  }
 
+  .reveiws-title {
+    font-size: 17px !important;
+  }
 
-        .reveiws-title{
-         font-size: 17px !important;
-        }
-        
-    .swiper-button_next , .swiper-button_prev
-    {
+  .swiper-button_next,
+  .swiper-button_prev {
     padding: 15px !important;
-    }
-     .login-btn
-    {
-      color: #ffffff !important;
-      background:#6DC177 !important;
-      position: fixed;
-      bottom: 5%;
-     
-    }
-    .links
-    {
-      color:#383838 !important;
-    }
-    .btn-filter
-    {
-      font-size: 10px !important;
-         }
+  }
+  .login-btn {
+    color: #ffffff !important;
+    background: #6dc177 !important;
     
+  }
+  .links {
+    color: #383838 !important;
+  }
+  .btn-filter {
+    font-size: 10px !important;
+  }
+  .search_input
+  {
+   padding:  0px !important;
+  }
+  .filer_side_sec
+  {
+    display: none;
+  }
+  .fliter-mobile , .filter-btn-mobile
+  {
+    display: flex !important;
+  }
+  .nav-cart 
+  {
+    color:#6dc177 !important;
+    
+  }
+  .left-nav-btn
+  {
+    display: flex  !important;
+    align-items: center  !important;
+    justify-content: center !important;
+    width: 100%;
+   
+  }
+  .dropdown-menu
+  {
+    margin-top: 30px !important;
+    width: 270px !important;
+  }
+
+
+
+  
+
 }
