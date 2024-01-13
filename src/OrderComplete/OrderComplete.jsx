@@ -9,7 +9,7 @@ import {
   } from "react-icons/io5";
   import payment1 from './../assets/icons/visa.png'
   import payment2 from './../assets/icons/master-card.png'
-  import payment3 from './../assets/icons/button.png'
+  import payment3 from './../assets/icons/Button.png'
   import paymentgate from './../assets/icons/payment-gate.png'
   import animation from './../assets/animation.gif'
   import { FaCheckToSlot } from "react-icons/fa6";
