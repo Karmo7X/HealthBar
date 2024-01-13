@@ -94,8 +94,29 @@ label {
 width: 300px;
 
 }
+.modal-header .btn-close {
+ margin: 0 !important;
+}
 
+.modal-backdrop.show
+{
+  display: none !important;
+}
 
+textarea::placeholder
+{
+color: #CECECE !important;
+}
+.form-check-input:checked {
+  background-color: #6DC177 !important;
+  border-color: #6DC177 !important;
+}
+.form-floating>label
+{
+ right: 0 !important;
+ left: auto !important;
+ color: #CECECE !important;
+}
 @media (min-width:992px) {
   .offcanvas-lg {
     display: none !important;
@@ -159,7 +180,7 @@ width: 300px;
   {
    padding:  0px !important;
   }
-  .filer_side_sec
+  .filer_side_sec ,.cart_side_sec
   {
     display: none;
   }
@@ -185,7 +206,11 @@ width: 300px;
     margin-top: 30px !important;
     width: 270px !important;
   }
-
+  .checksolt-mobile-btn
+  {
+    display: flex !important;
+  }
+   
 
 
   

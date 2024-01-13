@@ -53,7 +53,7 @@ const Home = () => {
             <Navbar key={expand} expand={expand} className="mb-3">
               <Container fluid>
                 <Navbar.Brand href="#">
-                  <img src={logo} alt="" className="img-fluid" />
+                  <img src={logo} alt="" className="img-fluid w-75 " />
                 </Navbar.Brand>
                 <Navbar.Toggle
                   aria-controls={`offcanvasNavbar-expand-${expand}`}
@@ -466,20 +466,22 @@ const Home = () => {
                           </span>
                         </div>
                         <div className="d-flex align-items-center justify-content-center mt-4 mb-3">
-                          <Button
-                            variant="outline-success btn"
-                            style={{
-                              padding: "10px 70px",
-                              fontWeight: "500",
-                              border: "none",
-                              borderRadius: "20px",
-                              background:
-                                " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
-                              color: "#FFF",
-                            }}
-                          >
-                            إكمال الطلب
-                          </Button>
+                        <Link
+                      to='/ordercomplete'
+                      className='text-decoration-none '
+                      variant="outline-success btn"
+                      style={{
+                        padding: "10px 70px",
+                        fontWeight: "500",
+                        border: "none",
+                        borderRadius: "20px",
+                        background:
+                          " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
+                        color: "#FFF",
+                      }}
+                    >
+                      إكمال الطلب
+                    </Link>
                         </div>
                       </div>
 </div>

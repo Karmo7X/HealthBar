@@ -25,7 +25,7 @@ const NavBar = () => {
         <Navbar key={expand} expand={expand} className="fixed-top mb-3" style={{background:"#6DC177"}}>
           <Container fluid>
             <Navbar.Brand >
-              <Link to='/' className='text-decoration-none' ><img src={logo2} alt="" className='img-fluid' /></Link>
+              <Link to='/' className='text-decoration-none' ><img src={logo2} alt="" className='img-fluid w-75' /></Link>
                 
             </Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
@@ -37,7 +37,7 @@ const NavBar = () => {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Offcanvas
+                <img src={logo2} alt="" className='img-fluid' />
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
@@ -436,20 +436,22 @@ const NavBar = () => {
                             </span>
                           </div>
                           <div className="d-flex align-items-center justify-content-center mt-4 mb-3">
-                            <Button
-                              variant="outline-success btn"
-                              style={{
-                                padding: "10px 70px",
-                                fontWeight: "500",
-                                border: "none",
-                                borderRadius: "20px",
-                                background:
-                                  " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
-                                color: "#FFF",
-                              }}
-                            >
-                              إكمال الطلب
-                            </Button>
+                          <Link
+                      to='/ordercomplete'
+                      className='text-decoration-none '
+                      variant="outline-success btn"
+                      style={{
+                        padding: "10px 70px",
+                        fontWeight: "500",
+                        border: "none",
+                        borderRadius: "20px",
+                        background:
+                          " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
+                        color: "#FFF",
+                      }}
+                    >
+                      إكمال الطلب
+                    </Link>
                           </div>
                         </div>
   </div>

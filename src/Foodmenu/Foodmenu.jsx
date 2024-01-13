@@ -22,6 +22,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { Link } from "react-router-dom";
 
 const prodcutdata = [
   {
@@ -886,20 +887,22 @@ const Foodmenu = () => {
                             </span>
                           </div>
                           <div className="d-flex align-items-center justify-content-center mt-4 mb-3">
-                            <Button
-                              variant="outline-success btn"
-                              style={{
-                                padding: "10px 70px",
-                                fontWeight: "500",
-                                border: "none",
-                                borderRadius: "20px",
-                                background:
-                                  " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
-                                color: "#FFF",
-                              }}
-                            >
-                              إكمال الطلب
-                            </Button>
+                          <Link
+                      to='/ordercomplete'
+                      className='text-decoration-none '
+                      variant="outline-success btn"
+                      style={{
+                        padding: "10px 70px",
+                        fontWeight: "500",
+                        border: "none",
+                        borderRadius: "20px",
+                        background:
+                          " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
+                        color: "#FFF",
+                      }}
+                    >
+                      إكمال الطلب
+                    </Link>
                           </div>
                         </div>
                       </div>
@@ -1036,7 +1039,7 @@ const Foodmenu = () => {
                     </h2>
                     <div
                       id="flush-collapseOne"
-                      class="accordion-collapse collapse"
+                      class="accordion-collapse collapse show"
                       data-bs-parent="#accordionFlushExample"
                     >
                       <div
@@ -1044,12 +1047,13 @@ const Foodmenu = () => {
                         style={{ maxHeight: "70vh", overflowY: "auto" }}
                       >
                         {prodcutdata.map(
-                          ({ id, title, cover, desc, price, calries }) => {
+                          ({ id, title, cover, desc, price, calries } ,index) => {
                             return (
                               <>
                                 <div
                                   className="prodcut_card mt-2 mb-2"
                                   key={id}
+                                  data-bs-toggle="modal" data-bs-target={`#productModal${index}`}
                                 >
                                   <div className="d-flex align-item-center gap-2 mt-3 mb-3 ">
                                     <div className="product_image">
@@ -1102,6 +1106,147 @@ const Foodmenu = () => {
                                     </div>
                                   </div>
                                 </div>
+                                {/* <!-- Modal product --> */}
+<div class="modal fade" id={`productModal${index}`}  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style={{background:'#FCFCFC'}}>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">تفاصيل الوجبة</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div className="d-flex align-item-center gap-2 mt-3 mb-3 "  key={id}>
+                                    <div className="product_image">
+                                      <img
+                                        src={cover}
+                                        alt=""
+                                        className="img-fluid"
+                                        style={{
+                                          maxWidth: "110px",
+                                          maxHeight: "110px",
+                                          borderRadius: "12px",
+                                        }}
+                                      />
+                                    </div>
+                                    
+                                    <div className=" row d-flex align-items-center justify-content-between w-100">
+                                       <div className="product_content col-lg-9 col-sm-12 col-md-12">
+                                      <h5>{title}</h5>
+                                      <p>{desc}</p>
+                                      <span>{calries}</span>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-center col-lg-3 col-sm-12 col-md-12 ">
+                                    <div className="d-flex align-items-center flex-lg-column left-product-details gap-2 ">
+                                     <div>
+                                     <div className="quantity d-flex align-items-cetner gap-4">
+                        <button
+                          onClick={() => handelebuttonminus()}
+                          style={{ border: "none", background: "none" }}
+                        >
+                          <CiCircleMinus
+                            className="btn-cart-minus"
+                            style={{ fontSize: "30px", color: "#6DC177" }}
+                          />
+                        </button>
+                        <div className="fw-bold">
+                          <span style={{ fontSize: "30px" }}>{counter}</span>
+                        </div>
+                        <button
+                          onClick={() => handelebuttonplus()}
+                          style={{ border: "none", background: "none" }}
+                        >
+                          <CiCirclePlus
+                            className="btn-cart-plus"
+                            style={{ fontSize: "30px", color: "#6DC177" }}
+                          />
+                        </button>
+                                      </div>
+                                      </div> 
+                                       <div>
+                                        <p
+                                          className="mt-3"
+                                          style={{
+                                            fontWeight: "600",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {price}
+                                        </p>
+                                      </div>
+                                     
+                                    </div>
+                                  </div>
+                                    </div>
+                                   
+                                  </div>
+                                  
+      </div>
+      <div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" style={{background:'#FCFCFC'}}>
+      <button class="accordion-button" style={{
+                          fontSize: "20px",
+                          background: "#FCFCFC",
+                          boxShadow: "none",
+                          fontWeight: "500",
+                          padding: "25px 10px",
+                        }}type="button" data-bs-toggle="collapse" data-bs-target={`#collapseOne${index}`} aria-expanded="true" aria-controls="collapseOne">
+      الإضافات
+      </button>
+    </h2>
+    <div id={`collapseOne${index}`} class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body" style={{maxHeight:"20vh",overflowY:'auto'}}>
+      <div className="d-flex align-items-center justify-content-between row ">
+      <div class="form-check col-sm-12 col-lg-8"> 
+       
+  <input class="form-check-input" style={{float:"none" ,marginLeft:"10px"}} type="checkbox" value="" id="flexCheckDefault"/>
+<label class="form-check-label" for="flexCheckDefault">
+  مشروم ، ( 9 سعر حراري )
+  </label>
+</div>
+<div className="col-sm-12 col-lg-4 d-flex align-items-center justify-content-end">
+  <span className="fw-bold">EGP 11</span>
+</div>
+       
+      </div>
+      <div className="d-flex align-items-center justify-content-between row ">
+      <div class="form-check col-sm-12 col-lg-8">
+  <input class="form-check-input" style={{float:"none" ,marginLeft:"10px"}} type="checkbox" value="" id="flexCheckChecked" checked/>
+  <label class="form-check-label" for="flexCheckChecked">
+  30 جرام دجاج مشوي ، (100 سعر حراري )
+  </label>
+</div>
+<div className="col-sm-12 col-lg-4 d-flex align-items-center justify-content-end">
+  <span className="fw-bold">EGP 60</span>
+</div>
+
+      </div>
+       
+      
+      </div>
+    </div>
+  </div>
+</div>
+  
+<div className="d-flex align-items-center justify-content-center mt-4 mb-3">
+                    <Button
+                      variant="outline-success btn"
+                      style={{
+                        padding: "10px 70px",
+                        fontWeight: "500",
+                        border: "none",
+                        borderRadius: "20px",
+                        background:
+                          " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
+                        color: "#FFF",
+                      }}
+                    >
+                     أضف إلي سلة المشتريات
+                    </Button>
+                  </div>
+    </div>
+  </div>
+</div>
                                 <hr style={{ background: "#CECECE" }} />
                               </>
                             );
@@ -1510,7 +1655,9 @@ const Foodmenu = () => {
                     </span>
                   </div>
                   <div className="d-flex align-items-center justify-content-center mt-4 mb-3">
-                    <Button
+                    <Link
+                      to='/ordercomplete'
+                      className='text-decoration-none '
                       variant="outline-success btn"
                       style={{
                         padding: "10px 70px",
@@ -1523,7 +1670,7 @@ const Foodmenu = () => {
                       }}
                     >
                       إكمال الطلب
-                    </Button>
+                    </Link>
                   </div>
                 </div>
 
