@@ -16,6 +16,11 @@
   direction: rtl;
 }
 
+body
+{
+   background: #CECECE;
+}
+
 h1,
 h2,
 h3,
@@ -64,6 +69,12 @@ label {
   background: #6dc177 !important;
   border-right:1px solid #CECECE;
  
+}
+
+.promo_btn:hover
+{
+  color:#6dc177 !important; 
+  
 }
 .btn-filter:hover ,.search_btn:hover {
   color: #ffffff !important;
@@ -184,6 +195,10 @@ color: #CECECE !important;
   {
     display: none;
   }
+  .forget_pass
+  {
+   width: 100% !important;  
+  }
   .fliter-mobile , .filter-btn-mobile
   {
     display: flex !important;
@@ -209,6 +224,18 @@ color: #CECECE !important;
   .checksolt-mobile-btn
   {
     display: flex !important;
+  }
+  .form .row ,.add_address_sec_form
+  {
+    width: 100% !important;
+  }
+  .Adress_sec_head
+  {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    text-align: center;
   }
    
 

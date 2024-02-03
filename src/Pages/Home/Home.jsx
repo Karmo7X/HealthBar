@@ -6,20 +6,20 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import logo from '../assets/LogoHealthBar.png'
-import homeimg from '../assets/homeimg.png'
-import homeimg2 from '../assets/homeimg-2.png'
-import homeimg3 from '../assets/homeimg-3.png'
+import logo from '../../assets/LogoHealthBar.png'
+import homeimg from '../../assets/homeimg.png'
+import homeimg2 from '../../assets/homeimg-2.png'
+import homeimg3 from '../../assets/homeimg-3.png'
 import Aos from 'aos';
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import "aos/dist/aos.css"
-import Products from '../component/Products/Products';
-import meat from '../assets/icons/Meat.png'
-import gluten from '../assets/icons/gluten.png'
-import brazil_Nut from '../assets/icons/Brazil_Nut.png'
-import Footer from '../component/Footer';
-import Reviews from '../component/Reviews/Reviews';
+import Products from '../../component/Products/Products';
+import meat from '../../assets/icons/Meat.png'
+import gluten from '../../assets/icons/gluten.png'
+import brazil_Nut from '../../assets/icons/Brazil_Nut.png'
+import Footer from '../../component/Footer';
+import Reviews from '../../component/Reviews/Reviews';
 import { Link } from 'react-router-dom';
 import { IoBagOutline ,  IoSearchOutline,
   IoCloseCircleSharp,
@@ -96,7 +96,7 @@ const Home = () => {
                 
                 <Form className="d-flex mx-4">
                 
-                <Button  variant="outline-success login-btn" style={{padding:'10px 50px' ,borderRadius:"20px",fontWeight:"500" ,color:"#383838" ,background:'#ffffff'}}>تسجيل الدخول</Button>
+                <Link to='/login'  variant="outline-success login-btn" className='text-decoration-none' style={{padding:'10px 50px' ,borderRadius:"20px",fontWeight:"500" ,color:"#383838" ,background:'#ffffff'}}>تسجيل الدخول</Link>
               </Form>
                 <div className='nav-cart mx-4 ' style={{color:'#ffffff'}}>
                 <div class="btn-group">

@@ -13,9 +13,9 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { MdFilterList } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
-import emptycart from "./../assets/icons/empty-cart.png";
-import product from "./../assets/product1.png";
-import product2 from "./../assets/product2.jpg";
+import emptycart from "../../assets/icons/empty-cart.png";
+import product from "../../assets/product1.png";
+import product2 from "../../assets/product2.jpg";
 
 // Import Swiper styles
 import "swiper/css";

@@ -66,7 +66,7 @@ const NavBar = () => {
                 
                   <Form className="d-flex mx-4">
                   
-                  <Button  variant="outline-success login-btn" style={{padding:'10px 50px' ,borderRadius:"20px",fontWeight:"500" ,color:"#383838" ,background:'#ffffff'}}>تسجيل الدخول</Button>
+                  <Link to='/login' className='text-decoration-none '  variant="outline-success login-btn" style={{padding:'10px 50px' ,borderRadius:"20px",fontWeight:"500" ,color:"#383838" ,background:'#ffffff'}}>تسجيل الدخول</Link>
                 </Form>
                   <div className='nav-cart mx-4 ' style={{color:'#ffffff'}}>
                   <div class="btn-group">
@@ -438,7 +438,7 @@ const NavBar = () => {
                           <div className="d-flex align-items-center justify-content-center mt-4 mb-3">
                           <Link
                       to='/ordercomplete'
-                      className='text-decoration-none '
+                      className='text-decoration-none  '
                       variant="outline-success btn"
                       style={{
                         padding: "10px 70px",
