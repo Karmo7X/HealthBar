@@ -11,7 +11,7 @@ import {
   import payment2 from '../../assets/icons/master-card.png'
   import payment3 from '../../assets/icons/Button.png'
   import paymentgate from '../../assets/icons/payment-gate.png'
-  import animation from '../../assets/animation.gif'
+  import animation from '../../assets/Animation.gif'
   import { FaCheckToSlot } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import product2 from "../../assets/product2.jpg";
