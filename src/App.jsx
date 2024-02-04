@@ -12,6 +12,7 @@ import Register from './Pages/Auth/Register';
 import Order from './Pages/Order/Order';
 import Adress from './Pages/Adress/Adress';
 import Add_adress from './Pages/Add_Adress/Add_adress';
+import Dishes from './Pages/YourDish/Dishes';
 function App() {
  
 
@@ -29,6 +30,7 @@ function App() {
       <Route path='order' element={<Order/>}/>
        <Route path='Adress' element={<Adress/>}/>
        <Route path='Add_Adress' element={<Add_adress/>}/>
+       <Route path='your_dish' element={<Dishes/>}/>
       </Route>
      </Routes>
      </BrowserRouter>

@@ -75,8 +75,10 @@ const Home = () => {
                       <Nav.Link  style={{ fontWeight: "800" }}>
                       <Link to='Foodmenu' className='text-decoration-none text-dark'>قائمة الطعام</Link>
                       </Nav.Link>
-                      <Nav.Link href="#action2" style={{ fontWeight: "800" }}>
-                        طبقك الخاص
+                      <Nav.Link  style={{ fontWeight: "800" }}>
+                      <Link to='your_dish' className='text-decoration-none text-dark'>طبقك الخاص </Link>
+
+                        
                       </Nav.Link>
                       {/* <NavDropdown
                     title="Dropdown"

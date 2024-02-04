@@ -45,9 +45,11 @@ const NavBar = () => {
                   <Nav.Link > 
                   <Link to='Foodmenu' className='text-decoration-none  text-sm-dark text-md-dark links'style={{fontWeight:"800" ,color:'#fff'}} >قائمة الطعام</Link>
                   </Nav.Link>
-                  <Nav.Link>
-                  <Link to='' className='text-decoration-none  links text-sm-dark text-md-dark' style={{fontWeight:"800" ,color:'#fff'}}>طبقك الخاص </Link> 
-                  </Nav.Link>
+                  <Nav.Link  style={{ fontWeight: "800" }}>
+                      <Link to='your_dish' className='text-decoration-none  text-sm-dark text-md-dark links' style={{fontWeight:"800" ,color:'#fff'}}>طبقك الخاص </Link>
+
+                        
+                      </Nav.Link>
                   {/* <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
