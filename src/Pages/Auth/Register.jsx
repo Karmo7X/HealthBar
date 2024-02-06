@@ -1,10 +1,61 @@
 import React, { useState } from 'react'
 import {FaRegEye , FaRegEyeSlash } from "react-icons/fa6";
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 const Register = () => {
     
 
+   // register api 
+  //   form state handle
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm_password, setConfirm_password] = useState('');
+  const navigate=useNavigate()
+  const dispatch =useDispatch()
+  
+
+  // handle functionalty
+  
+ 
+  const handleregisterbutton = async(e)=>
+  {
+    e.preventDefault()
+
+    let datauser={
+    'name':name,
+    'email':email,
+    'phone':phone,
+    'confirm_password':confirm_password,
+    
+    
+    
+    }
+   console.log(datauser)
+ 
+   await dispatch(Register(datauser)).then((result)=>{
+      console.log(result)
+     if(result.payload)
+       {
+         
+          
+        
+              
+          
+      }
+      // if(result.payload?.status === true){
+    
+      //   navigate('/login')
+      //  }
+     })
+
+  //  setModalShow(true)
+
+
+ }
   //  password Visible 
     const [passwordVisible, setPasswordVisible] = useState(false);
     const togglePasswordVisibility = () => {
@@ -22,8 +73,8 @@ setShowConfirmPassword(!showConfirmPassword);
     <div className='Register' style={{ marginTop: "7rem", minHeight: "100vh" }}>
       <div className="container-fluid">
         <div className="register_sec">
-        <form
-              action=""
+        <div
+            
               className=" form d-flex align-items-center  flex-column  justify-content-center   top-50  "
             >
               <h2 className="fw-bold mt-4"> إنشاء حساب </h2>
@@ -41,6 +92,7 @@ setShowConfirmPassword(!showConfirmPassword);
                     <input
                       type="text"
                       class="form-control form-control-lg"
+                      
                       style={{
                         boxShadow: "none",
                         outline: "none",
@@ -50,6 +102,7 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
+                      onChange={(e)=>setName(e.target.value)}
                     />
 
                     <label for="floatingInputEmail1">
@@ -71,6 +124,7 @@ setShowConfirmPassword(!showConfirmPassword);
                   >
                     <input
                       type="email"
+                      
                       class="form-control form-control-lg"
                       style={{
                         boxShadow: "none",
@@ -81,6 +135,7 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
+                      onChange={(e)=>setEmail(e.target.value)}
                     />
 
                     <label for="floatingInputEmail1">
@@ -104,6 +159,8 @@ setShowConfirmPassword(!showConfirmPassword);
                   >
                     <input
                       type="tel"
+                      
+                      name='phone'
                       class="form-control form-control-lg"
                       style={{
                         boxShadow: "none",
@@ -114,6 +171,7 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
+                      onChange={(e)=>setPhone(e.target.value)}
                     />
 
                     <label for="floatingInputEmail1">
@@ -137,6 +195,7 @@ setShowConfirmPassword(!showConfirmPassword);
                     <input
                      
                       name="password"
+                       
                       type={passwordVisible ? "text" : "password"}
                       class="form-control form-control-lg "
                       style={{
@@ -148,6 +207,7 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
+                      onChange={(e)=>setPassword(e.target.value)}
                     />
                     <span
                       className="password-toggle"
@@ -174,7 +234,8 @@ setShowConfirmPassword(!showConfirmPassword);
                   >
                     <input
                      
-                      name="password_confirm"
+                      name="confirm_password"
+                     
                       type={showConfirmPassword ? "text" : "password"}
                       class="form-control form-control-lg "
                       style={{
@@ -186,6 +247,7 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
+                      onChange={(e)=>setConfirm_password(e.target.value)}
                     />
                     <span
                       className="password-toggle"
@@ -202,10 +264,11 @@ setShowConfirmPassword(!showConfirmPassword);
                   </div>
                 </div>
                 <div className='d-flex align-items-center  mt-5 justify-content-center w-100'>
-                <Link 
-                       to='/login'
+                <button 
+                       
                         variant="outline-success btn"
                         className='text-decoration-none text-center'
+                        onClick={handleregisterbutton}
                         style={{
                           padding: "17px 50px",
                           fontWeight: "500",
@@ -219,7 +282,7 @@ setShowConfirmPassword(!showConfirmPassword);
                         إنشاء حساب جديد 
                         
 
-                      </Link>
+                      </button>
                 </div>
                 <div className="d-flex align-items-center  justify-content-center mt-4 ">
                   
@@ -231,7 +294,7 @@ setShowConfirmPassword(!showConfirmPassword);
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
         </div>
       </div>
     </div>

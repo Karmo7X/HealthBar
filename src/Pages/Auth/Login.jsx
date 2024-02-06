@@ -1,24 +1,26 @@
 import React, { useEffect, useState ,useRef } from 'react'
 import {FaRegEye , FaRegEyeSlash } from "react-icons/fa6";
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginApi } from '../../APi/slices/Auth/Authslice';
 
 const Login = () => {
 
-    //  password Visible 
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const togglePasswordVisibility = () => {
-     setPasswordVisible(!passwordVisible);
-   };
-
-   //  password confirm Visible 
-   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-const toggleShowConfirmPassword = () => {
-setShowConfirmPassword(!showConfirmPassword);
-}
-
-   // otp functionalty 
+    // Login api
+    const [email , setEmail]=useState('')
+    const [password, setPassword]=useState('')
+    const [modal ,setModal]=useState(false)
+    const dispatch =useDispatch()
+    const navigate=useNavigate()
+    const status=useSelector((state)=>state.auth.status)
+    const [errors,setErrors]=useState(null)
+    const [rememberMe, setRememberMe] = useState(false);
+      // Regex patterns for email and password validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    console.log(errors)
+    // otp functionalty 
    const [otp, setOtp] = useState(['', '', '', '']); // otp state
 
    const otpInputRefs = [
@@ -50,13 +52,107 @@ setShowConfirmPassword(!showConfirmPassword);
        }
      }
    }, [otp]);
+
+   const handleloginbtn= async(e)=>{
+   e.preventDefault()
+   // Validate email and password
+  //  if (!emailRegex.test(email) || !passwordRegex.test(password)) {
+  //   setErrors('Invalid email or password format.');
+  //   return;
+  // }
+
+   let datalogin={
+  'email':email,
+  'password':password,
+  }
+
+   console.log(datalogin)
+  await dispatch(LoginApi(datalogin)).then((result)=>{
+ 
+  if(result.payload)
+  {
+     setErrors(result.payload?.errors)
+  }
+  
+  if (result.status === 'success') {
+    navigate('/'); // Navigate to the desired route
+  }
+  
+  
+  
+  
+  })
+  
+  
+  if (rememberMe) {
+    // If "Remember Me" is checked, store the email and password in localStorage
+    localStorage.setItem("rememberedEmail", email);
+    localStorage.setItem("rememberedPassword", password);
+  }
+  }
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem("rememberedEmail");
+    const rememberedPassword = localStorage.getItem("rememberedPassword");
+  
+    if (rememberedEmail && rememberedPassword) {
+      setEmail(rememberedEmail);
+      setPassword(rememberedPassword);
+      setRememberMe(true); // You can set the "Remember Me" checkbox as checked.
+    }
+  }, []);
+  const handleOtpbtn= async(e)=>{
+    e.preventDefault()
+ 
+    let dataOTP={
+   'email':email,
+   'otp':otp,
+   }
+ 
+    console.log(dataOTP)
+   await dispatch(LoginApi(dataOTP)).then((result)=>{
+  
+   if(result.payload)
+   {
+      setErrors(result.payload?.errors)
+      setModal(true)
+   }
+   
+   if (result.status === 'success') {
+     navigate('/'); // Navigate to the desired route
+   }
+   
+   
+   
+   
+   })
+   
+   
+   }
+    //  password Visible 
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const togglePasswordVisibility = () => {
+     setPasswordVisible(!passwordVisible);
+   };
+
+   //  password confirm Visible 
+   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+const toggleShowConfirmPassword = () => {
+setShowConfirmPassword(!showConfirmPassword);
+}
+
+   
+
+
+
+
   return (
     <>
       <div className="Login" style={{ marginTop: "7rem", minHeight: "100vh" }}>
         <div className="container-fluid">
           <div className="login_sec  ">
-            <form
-              action=""
+            <div
+              a
               className=" form d-flex align-items-center  flex-column  justify-content-center   top-50  "
             >
               <h2 className="fw-bold mt-4"> تسجيل دخول</h2>
@@ -72,7 +168,8 @@ setShowConfirmPassword(!showConfirmPassword);
                     }}
                   >
                     <input
-                      type="text"
+                      type="email"
+                      name="email"
                       class="form-control form-control-lg"
                       style={{
                         boxShadow: "none",
@@ -83,14 +180,18 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
+                      onChange={(e)=>{setEmail(e.target.value);setErrors(null)}}
                     />
 
                     <label for="floatingInputEmail1">
                       {" "}
-                      اسم المستخدم أو البريد الإلكتروني{" "}
+                       البريد الإلكتروني{" "}
                     </label>
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
+                  {errors ? (<>
+                   <span className='text-danger text-center d-flex align-items-center    justify-content-center'>{errors?.email}</span>
+                  </>):null}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
                   <div
@@ -115,6 +216,7 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
+                      onChange={(e)=>{setPassword(e.target.value);setErrors(null)}}
                     />
                     <span
                       className="password-toggle"
@@ -129,11 +231,14 @@ setShowConfirmPassword(!showConfirmPassword);
                     <label for="floatingInputEmail1 mb-2"> كلمة المرور</label>
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
+                  {errors ? (<>
+                   <span className='text-danger text-center d-flex align-items-center    justify-content-center'>{errors?.password}</span>
+                  </>):null}
                 </div>
                 <div className="d-flex align-items-center  justify-content-between mt-4 ">
                   <div>
                   <div class="form-check">
-  <input class="form-check-input" type="checkbox"  style={{float:"none" ,marginLeft:"10px" }}  value="" id="flexCheckDefault"/>
+  <input class="form-check-input" type="checkbox"  style={{float:"none" ,marginLeft:"10px" }}  onChange={(e) => setRememberMe(e.target.checked)}  value="" id="flexCheckDefault"/>
   <label class="form-check-label" style={{color:'#383838'}} for="flexCheckDefault">
   تذكرنى
   </label>
@@ -146,7 +251,7 @@ setShowConfirmPassword(!showConfirmPassword);
                 <div className='d-flex align-items-center  mt-5 justify-content-center w-100'>
                 <Button
                         variant="outline-success btn"
-                    
+                       onClick={handleloginbtn}
                         style={{
                           padding: "17px 50px",
                           fontWeight: "500",
@@ -172,7 +277,7 @@ setShowConfirmPassword(!showConfirmPassword);
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
             {/* Forget password Modal */}
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -198,6 +303,7 @@ setShowConfirmPassword(!showConfirmPassword);
                   >
                     <input
                       type="email"
+
                       class="form-control form-control-lg"
                       style={{
                         boxShadow: "none",
@@ -208,6 +314,7 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
+                      onChange={(e)=>setEmail(e.target.value)}
                     />
 
                     <label for="floatingInputEmail1">
@@ -286,7 +393,11 @@ setShowConfirmPassword(!showConfirmPassword);
                   <div className='d-flex align-items-center  mt-5 justify-content-center w-100'>
                 <Button
                         variant="outline-success btn"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal3"
+                        onClick={handleOtpbtn}
+                        { ...modal === true  ? {
+                          'data-bs-toggle': 'modal',
+                          'data-bs-target': '#exampleModal3',
+                        } : {}}
                         style={{
                           padding: "17px 50px",
                           fontWeight: "500",
