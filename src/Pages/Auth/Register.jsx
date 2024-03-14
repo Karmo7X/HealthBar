@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import {FaRegEye , FaRegEyeSlash } from "react-icons/fa6";
 import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { RegisterApi } from '../../APi/slices/Auth/Authslice';
+
 const Register = () => {
     
 
@@ -14,8 +16,11 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirm_password, setConfirm_password] = useState('');
-  const navigate=useNavigate()
+  const [errors,setErrors]=useState(null)
+  console.log(errors)
   const dispatch =useDispatch()
+  const navigate=useNavigate()
+  
   
 
   // handle functionalty
@@ -35,22 +40,20 @@ const Register = () => {
     
     }
    console.log(datauser)
- 
-   await dispatch(Register(datauser)).then((result)=>{
+   
+   await dispatch(RegisterApi(datauser)).then((result)=>{
       console.log(result)
-     if(result.payload)
-       {
-         
-          
-        
-              
-          
-      }
+   
+      if(result.payload)
+  {
+     setErrors(result.payload?.errors)
+  }
       // if(result.payload?.status === true){
     
       //   navigate('/login')
       //  }
      })
+   
 
   //  setModalShow(true)
 
@@ -111,6 +114,9 @@ setShowConfirmPassword(!showConfirmPassword);
                     </label>
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
+                  {errors ? (<>
+                   <span className='text-danger'>{errors?.name}</span>
+                  </>):null}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
                 <div
@@ -144,7 +150,9 @@ setShowConfirmPassword(!showConfirmPassword);
                     </label>
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
-                  
+                  {errors ? (<>
+                   <span className='text-danger'>{errors?.email}</span>
+                  </>):null}
                   
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
@@ -181,7 +189,9 @@ setShowConfirmPassword(!showConfirmPassword);
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
                   
-                  
+                  {errors ? (<>
+                   <span className='text-danger'>{errors?.phone}</span>
+                  </>):null}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
                   <div
@@ -222,6 +232,9 @@ setShowConfirmPassword(!showConfirmPassword);
                     <label for="floatingInputEmail1 mb-2"> كلمة المرور</label>
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
+                  {errors ? (<>
+                   <span className='text-danger'>{errors?.password}</span>
+                  </>):null}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
                   <div
@@ -262,6 +275,9 @@ setShowConfirmPassword(!showConfirmPassword);
                     <label for="floatingInputEmail1 mb-2"> تأكيد كلمة المرور </label>
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
+                  {errors ? (<>
+                   <span className='text-danger'>{errors?.confirm_password}</span>
+                  </>):null}
                 </div>
                 <div className='d-flex align-items-center  mt-5 justify-content-center w-100'>
                 <button 

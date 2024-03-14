@@ -1,150 +1,138 @@
-import React, { useEffect, useState ,useRef } from 'react'
-import {FaRegEye , FaRegEyeSlash } from "react-icons/fa6";
-import Button from 'react-bootstrap/Button';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { LoginApi } from '../../APi/slices/Auth/Authslice';
+import React, { useEffect, useState, useRef } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import Button from "react-bootstrap/Button";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ForgetPassApi, LoginApi, OTP } from "../../APi/slices/Auth/Authslice";
 
 const Login = () => {
-
-    // Login api
-    const [email , setEmail]=useState('')
-    const [password, setPassword]=useState('')
-    const [modal ,setModal]=useState(false)
-    const dispatch =useDispatch()
-    const navigate=useNavigate()
-    const status=useSelector((state)=>state.auth.status)
-    const [errors,setErrors]=useState(null)
-    const [rememberMe, setRememberMe] = useState(false);
-      // Regex patterns for email and password validation
+  // Login api
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const status = useSelector((state) => state.auth.status);
+  const [errors, setErrors] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
+  // Regex patterns for email and password validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    console.log(errors)
-    // otp functionalty 
-   const [otp, setOtp] = useState(['', '', '', '']); // otp state
+  console.log(errors);
+  // otp functionalty
+  const [otp, setOtp] = useState(["", "", "", ""]); // otp state
 
-   const otpInputRefs = [
-     useRef(null),
-     useRef(null),
-     useRef(null),
-     useRef(null),
-     
-   ];
-   
-   // handle otp change function
-   const handleOtpChange = (e, index) => {
-     const updatedOtp = [...otp];
-     updatedOtp[index] = e.target.value;
-     setOtp(updatedOtp);
-   
-     if (e.target.value && index < otp.length - 1) {
-       otpInputRefs[index + 1].current.focus();
-     } else if (index > 0) {
-       otpInputRefs[index - 1].current.focus();
-     }
-   };
-   
-   useEffect(() => {
-     for (let i = 0; i < otp.length ; i++) {
-       if (otp[i] === '' && otpInputRefs[i].current) {
-         otpInputRefs[i].current.focus();
-         break;
-       }
-     }
-   }, [otp]);
+  const otpInputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
-   const handleloginbtn= async(e)=>{
-   e.preventDefault()
-   // Validate email and password
-  //  if (!emailRegex.test(email) || !passwordRegex.test(password)) {
-  //   setErrors('Invalid email or password format.');
-  //   return;
-  // }
+  // handle otp change function
+  const handleOtpChange = (e, index) => {
+    const updatedOtp = [...otp];
+    updatedOtp[index] = e.target.value;
+    setOtp(updatedOtp);
 
-   let datalogin={
-  'email':email,
-  'password':password,
-  }
+    if (e.target.value && index < otp.length - 1) {
+      otpInputRefs[index + 1].current.focus();
+    } else if (index > 0) {
+      otpInputRefs[index - 1].current.focus();
+    }
+  };
 
-   console.log(datalogin)
-  await dispatch(LoginApi(datalogin)).then((result)=>{
- 
-  if(result.payload)
-  {
-     setErrors(result.payload?.errors)
-  }
-  
-  if (result.status === 'success') {
-    navigate('/'); // Navigate to the desired route
-  }
-  
-  
-  
-  
-  })
-  
-  
-  if (rememberMe) {
-    // If "Remember Me" is checked, store the email and password in localStorage
-    localStorage.setItem("rememberedEmail", email);
-    localStorage.setItem("rememberedPassword", password);
-  }
-  }
+  useEffect(() => {
+    for (let i = 0; i < otp.length; i++) {
+      if (otp[i] === "" && otpInputRefs[i].current) {
+        otpInputRefs[i].current.focus();
+        break;
+      }
+    }
+  }, [otp]);
+
+  const handleloginbtn = async (e) => {
+    e.preventDefault();
+    // Validate email and password
+    //  if (!emailRegex.test(email) || !passwordRegex.test(password)) {
+    //   setErrors('Invalid email or password format.');
+    //   return;
+    // }
+
+    let datalogin = {
+      email: email,
+      password: password,
+    };
+
+    console.log(datalogin);
+    await dispatch(LoginApi(datalogin)).then((result) => {
+      if (result.payload) {
+        setErrors(result.payload?.errors);
+      }
+
+      // if (result.payload?.status === true) {
+      //   navigate('/'); // Navigate to the desired route
+      // }
+    });
+
+    if (rememberMe) {
+      // If "Remember Me" is checked, store the email and password in localStorage
+      localStorage.setItem("rememberedEmail", email);
+      localStorage.setItem("rememberedPassword", password);
+    }
+  };
   useEffect(() => {
     const rememberedEmail = localStorage.getItem("rememberedEmail");
     const rememberedPassword = localStorage.getItem("rememberedPassword");
-  
+
     if (rememberedEmail && rememberedPassword) {
       setEmail(rememberedEmail);
       setPassword(rememberedPassword);
       setRememberMe(true); // You can set the "Remember Me" checkbox as checked.
     }
   }, []);
-  const handleOtpbtn= async(e)=>{
-    e.preventDefault()
- 
-    let dataOTP={
-   'email':email,
-   'otp':otp,
-   }
- 
-    console.log(dataOTP)
-   await dispatch(LoginApi(dataOTP)).then((result)=>{
-  
-   if(result.payload)
-   {
-      setErrors(result.payload?.errors)
-      setModal(true)
-   }
-   
-   if (result.status === 'success') {
-     navigate('/'); // Navigate to the desired route
-   }
-   
-   
-   
-   
-   })
-   
-   
-   }
-    //  password Visible 
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const togglePasswordVisibility = () => {
-     setPasswordVisible(!passwordVisible);
-   };
 
-   //  password confirm Visible 
-   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const handleforgetbtn = async () => {
+    let forgetdata = {
+      email: email,
+    };
 
-const toggleShowConfirmPassword = () => {
-setShowConfirmPassword(!showConfirmPassword);
-}
+    await dispatch(ForgetPassApi(forgetdata)).then((result) => {
+      console.log(result);
+      //  if (result.payload?.status === true){
 
-   
+      //      setModal(true)
 
+      // }
+    });
+  };
+  const handleOtpbtn = async (e) => {
+    e.preventDefault();
 
+    let dataOTP = {
+      email: email,
+      otp: otp.join(""),
+    };
 
+    console.log(dataOTP);
+    await dispatch(OTP(dataOTP)).then((result) => {
+      if (result.payload) {
+        setErrors(result.payload?.errors);
+        setModal(true);
+      }
+
+      if (result.status === "success") {
+        navigate("/"); // Navigate to the desired route
+      }
+    });
+  };
+  //  password Visible
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  //  password confirm Visible
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
   return (
     <>
@@ -169,6 +157,7 @@ setShowConfirmPassword(!showConfirmPassword);
                   >
                     <input
                       type="email"
+                      value={email}
                       name="email"
                       class="form-control form-control-lg"
                       style={{
@@ -180,18 +169,22 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
-                      onChange={(e)=>{setEmail(e.target.value);setErrors(null)}}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        setErrors(null);
+                      }}
                     />
 
-                    <label for="floatingInputEmail1">
-                      {" "}
-                       البريد الإلكتروني{" "}
-                    </label>
+                    <label for="floatingInputEmail1"> البريد الإلكتروني </label>
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
-                  {errors ? (<>
-                   <span className='text-danger text-center d-flex align-items-center    justify-content-center'>{errors?.email}</span>
-                  </>):null}
+                  {errors ? (
+                    <>
+                      <span className="text-danger text-center d-flex align-items-center    justify-content-center">
+                        {errors?.email}
+                      </span>
+                    </>
+                  ) : null}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
                   <div
@@ -203,8 +196,8 @@ setShowConfirmPassword(!showConfirmPassword);
                     }}
                   >
                     <input
-                     
                       name="password"
+                      value={email}
                       type={passwordVisible ? "text" : "password"}
                       class="form-control form-control-lg "
                       style={{
@@ -216,7 +209,10 @@ setShowConfirmPassword(!showConfirmPassword);
                       }}
                       placeholder="name@example.com"
                       id="floatingInputEmail1"
-                      onChange={(e)=>{setPassword(e.target.value);setErrors(null)}}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setErrors(null);
+                      }}
                     />
                     <span
                       className="password-toggle"
@@ -231,327 +227,422 @@ setShowConfirmPassword(!showConfirmPassword);
                     <label for="floatingInputEmail1 mb-2"> كلمة المرور</label>
                     {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
                   </div>
-                  {errors ? (<>
-                   <span className='text-danger text-center d-flex align-items-center    justify-content-center'>{errors?.password}</span>
-                  </>):null}
+                  {errors ? (
+                    <>
+                      <span className="text-danger text-center d-flex align-items-center    justify-content-center">
+                        {errors?.password}
+                      </span>
+                    </>
+                  ) : null}
                 </div>
                 <div className="d-flex align-items-center  justify-content-between mt-4 ">
                   <div>
-                  <div class="form-check">
-  <input class="form-check-input" type="checkbox"  style={{float:"none" ,marginLeft:"10px" }}  onChange={(e) => setRememberMe(e.target.checked)}  value="" id="flexCheckDefault"/>
-  <label class="form-check-label" style={{color:'#383838'}} for="flexCheckDefault">
-  تذكرنى
-  </label>
-</div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        style={{ float: "none", marginLeft: "10px" }}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        value=""
+                        id="flexCheckDefault"
+                      />
+                      <label
+                        class="form-check-label"
+                        style={{ color: "#383838" }}
+                        for="flexCheckDefault"
+                      >
+                        تذكرنى
+                      </label>
+                    </div>
                   </div>
                   <div>
-                    <Link className='text-decoration-none fw-bold' data-bs-toggle="modal" data-bs-target="#exampleModal" style={{color:"#6DC177"}}>نسيت كلمة المرور ؟ </Link>
+                    <Link
+                      className="text-decoration-none fw-bold"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                      style={{ color: "#6DC177" }}
+                    >
+                      نسيت كلمة المرور ؟{" "}
+                    </Link>
                   </div>
                 </div>
-                <div className='d-flex align-items-center  mt-5 justify-content-center w-100'>
-                <Button
-                        variant="outline-success btn"
-                       onClick={handleloginbtn}
-                        style={{
-                          padding: "17px 50px",
-                          fontWeight: "500",
-                          border: "none",
-                          borderRadius: "40px",
-                          background:" linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
-                          color: "#FFF",
-                          width:'75%'
-                        }}
-                      >
-                        تسجيل الدخول    
-                        
-
-                      </Button>
+                <div className="d-flex align-items-center  mt-5 justify-content-center w-100">
+                  <Button
+                    variant="outline-success btn"
+                    onClick={handleloginbtn}
+                    style={{
+                      padding: "17px 50px",
+                      fontWeight: "500",
+                      border: "none",
+                      borderRadius: "40px",
+                      background:
+                        " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
+                      color: "#FFF",
+                      width: "75%",
+                    }}
+                  >
+                    تسجيل الدخول
+                  </Button>
                 </div>
                 <div className="d-flex align-items-center  justify-content-center mt-4 ">
-                  
-                  <div className='d-flex align-items-center '>
-                    <span>
-                    ليس لدي حساب ؟
-                    </span>
-                    <Link to='/Register' className='text-decoration-none fw-bold' style={{color:"#6DC177"}}>  إنشاء حساب جديد  </Link>
+                  <div className="d-flex align-items-center ">
+                    <span>ليس لدي حساب ؟</span>
+                    <Link
+                      to="/Register"
+                      className="text-decoration-none fw-bold"
+                      style={{ color: "#6DC177" }}
+                    >
+                      {" "}
+                      إنشاء حساب جديد{" "}
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
             {/* Forget password Modal */}
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header" style={{border:'none'}}>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div className='w-100 d-flex align-items-center justify-content-center '>
-        <div className='forget_pass  d-flex align-items-center text-center justify-content-center  flex-column ' style={{width:'75%'}}>
-        <h2 className="fw-bold mt-3"> إعادة تعيين كلمة المرور </h2>
-        <p className='mt-3' style={{fontSize:"20px"}}>الرجاء إدخال اسم المستخدم أو عنوان البريد الإلكتروني
-ستتلقى رمز التحقق عبر البريد الإلكتروني</p>
-<div
-                    class="form-floating w-100 mt-3 mb-3"
-                    style={{
-                      border: "1px solid #CECECE",
-                      borderRadius: "40px",
-                      color: "#CECECE",
-                      padding: "0px 20px",
-                    }}
-                  >
-                    <input
-                      type="email"
-
-                      class="form-control form-control-lg"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        border: "none",
-                        borderRadius: "40px",
-                        color: "#CECECE",
-                      }}
-                      placeholder="name@example.com"
-                      id="floatingInputEmail1"
-                      onChange={(e)=>setEmail(e.target.value)}
-                    />
-
-                    <label for="floatingInputEmail1">
-                      {" "}
-                         البريد الإلكتروني{" "}
-                    </label>
-                    {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header" style={{ border: "none" }}>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
-                  <div className='d-flex align-items-center  mt-5 justify-content-center w-100'>
-                <Button
-                        variant="outline-success btn"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal2"
-                        style={{
-                          padding: "17px 50px",
-                          fontWeight: "500",
-                          border: "none",
-                          borderRadius: "40px",
-                          background:" linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
-                          color: "#FFF",
-                          width:'75%'
-                        }}
+                  <div class="modal-body">
+                    <div className="w-100 d-flex align-items-center justify-content-center ">
+                      <div
+                        className="forget_pass  d-flex align-items-center text-center justify-content-center  flex-column "
+                        style={{ width: "75%" }}
                       >
-                        إعادة التعيين
-                        
+                        <h2 className="fw-bold mt-3">
+                          {" "}
+                          إعادة تعيين كلمة المرور{" "}
+                        </h2>
+                        <p className="mt-3" style={{ fontSize: "20px" }}>
+                          الرجاء إدخال اسم المستخدم أو عنوان البريد الإلكتروني
+                          ستتلقى رمز التحقق عبر البريد الإلكتروني
+                        </p>
+                        <div
+                          class="form-floating w-100 mt-3 mb-3"
+                          style={{
+                            border: "1px solid #CECECE",
+                            borderRadius: "40px",
+                            color: "#CECECE",
+                            padding: "0px 20px",
+                          }}
+                        >
+                          <input
+                            type="email"
+                            class="form-control form-control-lg"
+                            style={{
+                              boxShadow: "none",
+                              outline: "none",
+                              border: "none",
+                              borderRadius: "40px",
+                              color: "#CECECE",
+                            }}
+                            placeholder="name@example.com"
+                            id="floatingInputEmail1"
+                            onChange={(e) => setEmail(e.target.value)}
+                          />
 
-                      </Button>
-                </div>
-                  <div className="d-flex align-items-center  justify-content-center mt-4 ">
-                  
-                  <div className='d-flex align-items-center '>
-                    <span>
-                    ليس لدي حساب ؟
-                    </span>
-                    <Link to='/Register' className='text-decoration-none fw-bold' style={{color:"#6DC177"}}>  إنشاء حساب جديد  </Link>
+                          <label for="floatingInputEmail1">
+                            {" "}
+                            البريد الإلكتروني{" "}
+                          </label>
+                          {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
+                        </div>
+                        <div className="d-flex align-items-center  mt-5 justify-content-center w-100">
+                          <Button
+                            variant="outline-success btn"
+                            onClick={handleforgetbtn}
+                            {...(modal === true
+                              ? {
+                                  "data-bs-toggle": "modal",
+                                  "data-bs-target": "#exampleModal3",
+                                }
+                              : {})}
+                            style={{
+                              padding: "17px 50px",
+                              fontWeight: "500",
+                              border: "none",
+                              borderRadius: "40px",
+                              background:
+                                " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
+                              color: "#FFF",
+                              width: "75%",
+                            }}
+                          >
+                            إعادة التعيين
+                          </Button>
+                        </div>
+                        <div className="d-flex align-items-center  justify-content-center mt-4 ">
+                          <div className="d-flex align-items-center ">
+                            <span>ليس لدي حساب ؟</span>
+                            <Link
+                              to="/Register"
+                              className="text-decoration-none fw-bold"
+                              style={{ color: "#6DC177" }}
+                            >
+                              {" "}
+                              إنشاء حساب جديد{" "}
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-        </div>
-        </div>
-        
-      </div>
-     
-    </div>
-  </div>
-</div>
-            
+              </div>
+            </div>
+
             {/* OTP Modal */}
-            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header" style={{border:'none'}}>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div className='w-100 d-flex align-items-center justify-content-center '>
-        <div className='forget_pass  d-flex align-items-center text-center justify-content-center  flex-column ' style={{width:'75%'}}>
-        <h2 className="fw-bold mt-3">  إدخال رمز التحقق </h2>
-        <p className='mt-3' style={{fontSize:"20px"}}>
-        الرجاء إدخال رمز التحقق المرسل علي البريد اللكتروني 
-        </p>
-        <div className="otp_fields d-flex align-items-center justify-content-center" style={{gap:'20px' ,direction:'ltr'}}>
-              {otp.map((digit, index) => (
-    <input
-      key={index}
-      type="text"
-      className="form-control otpinputs "
-      name="otp"
-      
-      maxLength="1"
-      value={digit}
-      onChange={(e) => handleOtpChange(e, index)}
-      style={{ border: '1px solid #CECECE',color:'#CECECE', borderRadius: '0px', width: '55px', height: '55px', fontSize: '30px', textAlign: 'center', direction: 'ltr' }}
-      ref={otpInputRefs[index]}
-    />
-  ))}
-  </div>
-                  <div className='d-flex align-items-center  mt-5 justify-content-center w-100'>
-                <Button
-                        variant="outline-success btn"
-                        onClick={handleOtpbtn}
-                        { ...modal === true  ? {
-                          'data-bs-toggle': 'modal',
-                          'data-bs-target': '#exampleModal3',
-                        } : {}}
-                        style={{
-                          padding: "17px 50px",
-                          fontWeight: "500",
-                          border: "none",
-                          borderRadius: "40px",
-                          background:" linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
-                          color: "#FFF",
-                          width:'75%'
-                        }}
+            <div
+              class="modal fade"
+              id="exampleModal2"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel2"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header" style={{ border: "none" }}>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div className="w-100 d-flex align-items-center justify-content-center ">
+                      <div
+                        className="forget_pass  d-flex align-items-center text-center justify-content-center  flex-column "
+                        style={{ width: "75%" }}
                       >
-                        تأكيد
-                        
+                        <h2 className="fw-bold mt-3"> إدخال رمز التحقق </h2>
+                        <p className="mt-3" style={{ fontSize: "20px" }}>
+                          الرجاء إدخال رمز التحقق المرسل علي البريد اللكتروني
+                        </p>
+                        <div
+                          className="otp_fields d-flex align-items-center justify-content-center"
+                          style={{ gap: "20px", direction: "ltr" }}
+                        >
+                          {otp.map((digit, index) => (
+                            <input
+                              key={index}
+                              type="text"
+                              className="form-control otpinputs "
+                              name="otp"
+                              maxLength="1"
+                              value={digit}
+                              onChange={(e) => handleOtpChange(e, index)}
+                              style={{
+                                border: "1px solid #CECECE",
+                                color: "#CECECE",
+                                borderRadius: "0px",
+                                width: "55px",
+                                height: "55px",
+                                fontSize: "30px",
+                                textAlign: "center",
+                                direction: "ltr",
+                              }}
+                              ref={otpInputRefs[index]}
+                            />
+                          ))}
+                        </div>
+                        <div className="d-flex align-items-center  mt-5 justify-content-center w-100">
+                          <Button
+                            variant="outline-success btn"
+                            onClick={handleOtpbtn}
+                            {...(modal === true
+                              ? {
+                                  "data-bs-toggle": "modal",
+                                  "data-bs-target": "#exampleModal3",
+                                }
+                              : {})}
+                            style={{
+                              padding: "17px 50px",
+                              fontWeight: "500",
+                              border: "none",
+                              borderRadius: "40px",
+                              background:
+                                " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
+                              color: "#FFF",
+                              width: "75%",
+                            }}
+                          >
+                            تأكيد
+                          </Button>
+                        </div>
+                        <div className="d-flex align-items-center  justify-content-center mt-4 ">
+                          <div className="d-flex align-items-center ">
+                            <span>ليس لدي حساب ؟</span>
+                            <Link
+                              to="/Register"
+                              className="text-decoration-none fw-bold"
+                              style={{ color: "#6DC177" }}
+                            >
+                              {" "}
+                              إنشاء حساب جديد{" "}
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                      </Button>
-                </div>
-                  <div className="d-flex align-items-center  justify-content-center mt-4 ">
-                  
-                  <div className='d-flex align-items-center '>
-                    <span>
-                    ليس لدي حساب ؟
-                    </span>
-                    <Link to='/Register' className='text-decoration-none fw-bold' style={{color:"#6DC177"}}>  إنشاء حساب جديد  </Link>
+            {/* change password Modal */}
+            <div
+              class="modal fade"
+              id="exampleModal3"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel3"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header" style={{ border: "none" }}>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
-                </div>
-        </div>
-        </div>
-        
-      </div>
-     
-    </div>
-  </div>
-</div>
-
-             {/* change password Modal */}
-             <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header" style={{border:'none'}}>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div className='w-100 d-flex align-items-center justify-content-center '>
-        <div className='forget_pass  d-flex align-items-center text-center justify-content-center  flex-column ' style={{width:'75%'}}>
-        <h2 className="fw-bold mt-3"> إعادة تعيين كلمة المرور </h2>
-        
-        <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
-                  <div
-                    class="form-floating d-flex align-items-center justify-content-between  mb-3"
-                    style={{
-                      border: "1px solid #CECECE",
-                      borderRadius: "40px",
-                      padding: "0px 20px",
-                    }}
-                  >
-                    <input
-                     
-                      name="password"
-                      type={passwordVisible ? "text" : "password"}
-                      class="form-control form-control-lg "
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        border: "none",
-                        borderRadius: "40px",
-                        color: "#CECECE",
-                      }}
-                      placeholder="name@example.com"
-                      id="floatingInputEmail1"
-                    />
-                    <span
-                      className="password-toggle"
-                      onClick={togglePasswordVisibility}
-                    >
-                      {passwordVisible ? (
-                        <FaRegEye style={{ fontSize: "26px" }} />
-                      ) : (
-                        <FaRegEyeSlash style={{ fontSize: "26px" }} />
-                      )}
-                    </span>
-                    <label for="floatingInputEmail1 mb-2"> كلمة المرور</label>
-                    {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
-                  </div>
-                </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
-                  <div
-                    class="form-floating d-flex align-items-center justify-content-between  mb-3"
-                    style={{
-                      border: "1px solid #CECECE",
-                      borderRadius: "40px",
-                      padding: "0px 20px",
-                    }}
-                  >
-                    <input
-                     
-                      name="password_confirm"
-                      type={showConfirmPassword ? "text" : "password"}
-                      class="form-control form-control-lg "
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        border: "none",
-                        borderRadius: "40px",
-                        color: "#CECECE",
-                      }}
-                      placeholder="name@example.com"
-                      id="floatingInputEmail1"
-                    />
-                    <span
-                      className="password-toggle"
-                      onClick={toggleShowConfirmPassword}
-                    >
-                      {showConfirmPassword ? (
-                        <FaRegEye style={{ fontSize: "26px" }} />
-                      ) : (
-                        <FaRegEyeSlash style={{ fontSize: "26px" }} />
-                      )}
-                    </span>
-                    <label for="floatingInputEmail1 mb-2"> تأكيد كلمة المرور </label>
-                    {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
-                  </div>
-                </div>
-                  <div className='d-flex align-items-center  mt-5 justify-content-center w-100'>
-                <Button
-                        variant="outline-success btn"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal2"
-                        style={{
-                          padding: "17px 50px",
-                          fontWeight: "500",
-                          border: "none",
-                          borderRadius: "40px",
-                          background:" linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
-                          color: "#FFF",
-                          width:'75%'
-                        }}
+                  <div class="modal-body">
+                    <div className="w-100 d-flex align-items-center justify-content-center ">
+                      <div
+                        className="forget_pass  d-flex align-items-center text-center justify-content-center  flex-column "
+                        style={{ width: "75%" }}
                       >
-                        إعادة التعيين
-                        
+                        <h2 className="fw-bold mt-3">
+                          {" "}
+                          إعادة تعيين كلمة المرور{" "}
+                        </h2>
 
-                      </Button>
+                        <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
+                          <div
+                            class="form-floating d-flex align-items-center justify-content-between  mb-3"
+                            style={{
+                              border: "1px solid #CECECE",
+                              borderRadius: "40px",
+                              padding: "0px 20px",
+                            }}
+                          >
+                            <input
+                              name="password"
+                              type={passwordVisible ? "text" : "password"}
+                              class="form-control form-control-lg "
+                              style={{
+                                boxShadow: "none",
+                                outline: "none",
+                                border: "none",
+                                borderRadius: "40px",
+                                color: "#CECECE",
+                              }}
+                              placeholder="name@example.com"
+                              id="floatingInputEmail1"
+                            />
+                            <span
+                              className="password-toggle"
+                              onClick={togglePasswordVisibility}
+                            >
+                              {passwordVisible ? (
+                                <FaRegEye style={{ fontSize: "26px" }} />
+                              ) : (
+                                <FaRegEyeSlash style={{ fontSize: "26px" }} />
+                              )}
+                            </span>
+                            <label for="floatingInputEmail1 mb-2">
+                              {" "}
+                              كلمة المرور
+                            </label>
+                            {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
+                          </div>
+                        </div>
+                        <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
+                          <div
+                            class="form-floating d-flex align-items-center justify-content-between  mb-3"
+                            style={{
+                              border: "1px solid #CECECE",
+                              borderRadius: "40px",
+                              padding: "0px 20px",
+                            }}
+                          >
+                            <input
+                              name="password_confirm"
+                              type={showConfirmPassword ? "text" : "password"}
+                              class="form-control form-control-lg "
+                              style={{
+                                boxShadow: "none",
+                                outline: "none",
+                                border: "none",
+                                borderRadius: "40px",
+                                color: "#CECECE",
+                              }}
+                              placeholder="name@example.com"
+                              id="floatingInputEmail1"
+                            />
+                            <span
+                              className="password-toggle"
+                              onClick={toggleShowConfirmPassword}
+                            >
+                              {showConfirmPassword ? (
+                                <FaRegEye style={{ fontSize: "26px" }} />
+                              ) : (
+                                <FaRegEyeSlash style={{ fontSize: "26px" }} />
+                              )}
+                            </span>
+                            <label for="floatingInputEmail1 mb-2">
+                              {" "}
+                              تأكيد كلمة المرور{" "}
+                            </label>
+                            {/* <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> */}
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center  mt-5 justify-content-center w-100">
+                          <Button
+                            variant="outline-success btn"
+                            // onClick={handleforgetbtn}
+                            style={{
+                              padding: "17px 50px",
+                              fontWeight: "500",
+                              border: "none",
+                              borderRadius: "40px",
+                              background:
+                                " linear-gradient(180deg, #6DC177 0%, #13793D 100%)",
+                              color: "#FFF",
+                              width: "75%",
+                            }}
+                          >
+                            إعادة التعيين
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                 
-        </div>
-        </div>
-        
-      </div>
-     
-    </div>
-  </div>
-</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </>
   );
-}
+};
 
-export default Login
+export default Login;

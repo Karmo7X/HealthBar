@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 import Cookies from "js-cookie"
-import { Navigate } from "react-router-dom"
 
 
-const baseurl= `https://cc2f-197-60-193-113.ngrok-free.app/api/`
+
+const baseurl= `https://ce30-102-44-255-132.ngrok-free.app/api/`
 
 const initialState={
     userdata:null,
@@ -28,7 +28,7 @@ export const LoginApi = createAsyncThunk('Auth/Login', async (datalogin) => {
       return err.response.data; // or handle the error appropriately
     }
   });
-export const Register =createAsyncThunk('Auth/Register', async (datauser)=>{
+export const RegisterApi =createAsyncThunk('Auth/Register', async (datauser)=>{
   
     try{
         const req=await axios.post(`${baseurl}register`,datauser)
@@ -50,6 +50,18 @@ export const Register =createAsyncThunk('Auth/Register', async (datauser)=>{
 
 
 })
+export const ForgetPassApi = createAsyncThunk('Auth/Forget', async (forgetdata) => {
+  try {
+    const req = await axios.post(`${baseurl}forgetPassword`, forgetdata);
+    const res = req.data;
+   
+    console.log(res);
+    return res ;
+  } catch (err) {
+    console.error(err);
+    return err.response.data; // or handle the error appropriately
+  }
+});
 
 export const OTP = createAsyncThunk('Auth/OTP', async (dataOTP) => {
     try {
@@ -84,18 +96,30 @@ extraReducers:(builder)=>{
      state.status='fail';
   
   })
- .addCase(Register.fulfilled,(state,action)=>{
+ .addCase(RegisterApi.fulfilled,(state,action)=>{
    state.userdata=action.payload;
    state.error=null;
 
 
 })
-.addCase(Register.rejected,(state,action)=>{
+.addCase(RegisterApi.rejected,(state,action)=>{
     state.userdata=null
     state.error=action.payload;
  
  
  })
+ .addCase(ForgetPassApi.fulfilled,(state,action)=>{
+  state.userdata=action.payload;
+  state.error=null;
+
+
+})
+.addCase(ForgetPassApi.rejected,(state,action)=>{
+   state.userdata=null
+   state.error=action.payload;
+
+
+})
  .addCase(OTP.fulfilled,(state,action)=>{
     state.data=action.payload;
     state.error=null;
@@ -108,6 +132,8 @@ extraReducers:(builder)=>{
   
   
   })
+
+ 
 
 
 }
