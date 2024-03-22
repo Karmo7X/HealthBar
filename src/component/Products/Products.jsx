@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Navigation, Pagination, Scrollbar, A11y ,EffectFade } from 'swiper/modules';
 import Button from 'react-bootstrap/Button';
 import { Swiper, SwiperSlide, useSwiper  } from 'swiper/react';
@@ -12,72 +12,9 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/effect-fade';
 import "swiper/css/grid";
 import 'swiper/swiper-bundle.css';
-const prodcutdata=[
-    {
-        id: 1,
-        title: "دجاج مشوي بالمشروم",
-        desc: " دجاج مشوي محشو بصلصة الجرافي والفطر..",
-        price:"EGP 165",
-        calries:'615 سعر حراري',
-        cover:product,
-      },
-      {
-        id: 2,
-        title: "دجاج مشوي بالمشروم",
-        desc: " دجاج مشوي محشو بصلصة الجرافي والفطر.. ",
-        price:"EGP 165",
-        calries:'615 سعر حراري',
-        cover: product,
-      },
-      {
-        id: 3,
-        title: "دجاج مشوي بالمشروم",
-        desc: "دجاج مشوي محشو بصلصة الجرافي والفطر.. ",
-        price:"EGP 165",
-        calries:'615 سعر حراري',
-        cover: product,
-      },
-      {
-        id: 4,
-        title: "دجاج مشوي بالمشروم",
-        desc: " دجاج مشوي محشو بصلصة الجرافي والفطر.. ",
-        price:"EGP 165",
-        calries:'615 سعر حراري',
-        cover: product,
-      },
-      {
-        id: 5,
-        title: "دجاج مشوي بالمشروم",
-        desc: " دجاج مشوي محشو بصلصة الجرافي والفطر.. ",
-        price:"EGP 165",
-        calries:'615 سعر حراري',
-        cover: product,
-      },
-      {
-        id: 6,
-        title: "دجاج مشوي بالمشروم",
-        desc: " دجاج مشوي محشو بصلصة الجرافي والفطر.. ",
-        price:"EGP 165",
-        calries:'615 سعر حراري',
-        cover: product,
-      },
-      {
-        id: 7,
-        title: "دجاج مشوي بالمشروم",
-        desc: " دجاج مشوي محشو بصلصة الجرافي والفطر.. ",
-        price:"EGP 165",
-        calries:'615 سعر حراري',
-        cover: product,
-      },
-      {
-        id: 8,
-        title: "دجاج مشوي بالمشروم",
-        desc: " دجاج مشوي محشو بصلصة الجرافي والفطر.. ",
-        price:"EGP 165",
-        calries:'615 سعر حراري',
-        cover: product,
-      },
-]
+import { useDispatch } from 'react-redux';
+import { GetMaindish } from '../../APi/slices/Cart/Foodslice';
+
 
 const Products = () => {
   const [slideBegOrNot, handleSlideByState] = useState({
@@ -101,6 +38,27 @@ const Products = () => {
     });
  };
  
+
+
+ // handle api for main dishes
+ const [dishes ,setdishes]=useState([])
+ console.log(dishes)
+ const dispacth=useDispatch()
+ useEffect(()=>{
+   dispacth(GetMaindish()).then((res)=>{
+   if(res.payload?.status === true){
+      setdishes(res.payload?.meals)
+   
+   
+   
+   }
+   
+   
+   
+   })
+
+
+},[])
   return (
     
     
@@ -146,19 +104,19 @@ const Products = () => {
   >
     
     
-      {prodcutdata.map(({title,desc,calries,price,cover},index)=>{
+      {dishes.map((dishe,index)=>{
           return(
             <>
               <SwiperSlide className='SwiperSlide mb-5 mt-5' key={index} >
            <div className="container">
             
            <div class="card" style={{width: "22rem"}}>
-  <img src={cover} class="card-img-top" alt="..."/>
+  <img src={product} class="card-img-top" alt="..."/>
   <div class="card-body">
     <div>
-       <h5 class="card-title" >{title}</h5>
-    <p class="card-text">{desc}</p>
-    <span>{calries}</span>
+       <h5 class="card-title" >{dishe?.name}</h5>
+    <p class="card-text">{dishe?.description.slice(0, 50)}</p>
+   <span>{dishe?.calories}</span> سعر حراري 
     </div>
    <div className='d-flex align-items-center justify-content-between  mt-4'>
    <Button
@@ -175,7 +133,7 @@ const Products = () => {
                          أضف إلى السلة
                       </Button>
 
-      <p className='fw-bold mt-3' style={{fontSize:'23px'}}>{price}</p>                
+      <p className='fw-bold mt-3' style={{fontSize:'23px'}}> {dishe?.price} EGP</p>                
    </div>
     {/* <a href="#" class="btn btn-primary">Go somewhere</a> */}
     

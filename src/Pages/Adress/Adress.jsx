@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
     
     IoLocationOutline ,
@@ -9,7 +9,17 @@ import {
   import { IoIosAddCircleOutline } from "react-icons/io";
   import { CiEdit } from "react-icons/ci";
 
+
+
 const Adress = () => {
+  
+  const navigate =useNavigate()
+  const handleadd_address =()=>{
+  
+    navigate('/Add_Adress')
+  
+  
+  }
   return (
     <>
       <div className='Adress' style={{ marginTop: "7rem", minHeight: "100vh"}}>
@@ -64,10 +74,10 @@ const Adress = () => {
 </div>
                 </div>
 
-                <div className="col-lg-4 col-sm-6 col-sm-12 mb-4">
+                <div className="col-lg-4 col-sm-6 col-sm-12 mb-4" onClick={()=>handleadd_address()}>
                 <div class="card w-100 " style={{padding:'10px 40px' ,minHeight:'420px'}}>
   <div class="card-body">
-    <div className="d-flex align-items-center justify-content-center flex-column  " style={{height:"300px" ,margin:'0'}} >
+    <div  className="d-flex align-items-center justify-content-center flex-column  " style={{height:"300px" ,margin:'0'}} >
     <IoIosAddCircleOutline style={{fontSize:"50px" ,color:'#6DC177'}}/>
     <h5 class="card-title mt-4">أضف عنوان جديد  </h5>
     

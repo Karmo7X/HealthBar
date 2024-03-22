@@ -34,6 +34,7 @@ const Register = () => {
     'name':name,
     'email':email,
     'phone':phone,
+    'password':password,
     'confirm_password':confirm_password,
     
     
@@ -42,16 +43,15 @@ const Register = () => {
    console.log(datauser)
    
    await dispatch(RegisterApi(datauser)).then((result)=>{
-      console.log(result)
-   
-      if(result.payload)
-  {
-     setErrors(result.payload?.errors)
-  }
-      // if(result.payload?.status === true){
+ 
+      if(result.payload?.status === true){
     
-      //   navigate('/login')
-      //  }
+        navigate('/login')
+       }else{
+      
+      
+        setErrors(result.payload?.errors)
+      }
      })
    
 

@@ -4,7 +4,7 @@ import Cookies from "js-cookie"
 
 
 
-const baseurl= `https://ce30-102-44-255-132.ngrok-free.app/api/`
+const baseurl= `https://6ce9-197-60-62-93.ngrok-free.app/api/`
 
 const initialState={
     userdata:null,
@@ -14,6 +14,7 @@ const initialState={
 
 }
 
+const token =Cookies.get('token')
 
 export const LoginApi = createAsyncThunk('Auth/Login', async (datalogin) => {
     try {
@@ -76,7 +77,39 @@ export const OTP = createAsyncThunk('Auth/OTP', async (dataOTP) => {
     }
   });
 
-
+  
+export const Reset_password = createAsyncThunk('Auth/Reset_password', async (values) => {
+  try {
+    const req = await axios.post(`${baseurl}resetPassword`, values);
+    const res = req.data;
+   
+    console.log(res);
+    return res ;
+  } catch (err) {
+    console.error(err);
+    return err.response.data; // or handle the error appropriately
+  }
+});
+export const LogoutAPi = createAsyncThunk('Auth/LogoutAPi', async () => {
+  try {
+    const req = await axios.post(`${baseurl}logOut`,{
+     headers:{
+    
+    'Authorization':`Bearer ${token}`
+    
+    }
+    
+    
+    });
+    const res = req.data;
+    Cookies.remove('token')
+    console.log(res);
+    return res ;
+  } catch (err) {
+    console.error(err);
+    return err.response.data; // or handle the error appropriately
+  }
+});
 
 const Authslice =createSlice({
 name:'auth',

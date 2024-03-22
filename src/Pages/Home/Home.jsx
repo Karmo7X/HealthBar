@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -20,12 +21,16 @@ import gluten from '../../assets/icons/gluten.png'
 import brazil_Nut from '../../assets/icons/Brazil_Nut.png'
 import Footer from '../../component/Footer';
 import Reviews from '../../component/Reviews/Reviews';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoBagOutline ,  IoSearchOutline,
   IoCloseCircleSharp,
   IoCloseCircle,
   IoBag,} from "react-icons/io5";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
+import Cookies from "js-cookie"
+import user from '../../assets/icons/userundefine.png'
+import { useDispatch } from 'react-redux';
+import { LogoutAPi } from '../../APi/slices/Auth/Authslice';
 
 const Home = () => {
   useEffect(()=>
@@ -36,7 +41,25 @@ const Home = () => {
   const [counter, setCounter] = useState(1);
   const handelebuttonplus = () => setCounter(counter + 1);
   const handelebuttonminus = () => setCounter(counter - 1);
-  
+   const token =Cookies.get('token')
+
+   const dispatch=useDispatch()
+   const navigate =useNavigate()
+   const handlelogout=()=>{
+   
+   dispatch(LogoutAPi()).then((res)=>{
+    if(res.payload?.status=== true)
+    {  
+     navigate('/login')
+   
+    
+     }  
+   
+   
+   })
+   
+   
+   }
   return (
     <>
     <div style={{  minHeight: "100vh",}}>
@@ -80,26 +103,12 @@ const Home = () => {
 
                         
                       </Nav.Link>
-                      {/* <NavDropdown
-                    title="Dropdown"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
-                  >
-                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
-                      Another action
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Something else here
-                    </NavDropdown.Item>
-                  </NavDropdown> */}
+                   
                     </Nav>
                     <div className='d-flex align-items-center left-nav-btn'>
+                  
                 
-                <Form className="d-flex mx-4">
-                
-                <Link to='/login'  variant="outline-success login-btn" className='text-decoration-none' style={{padding:'10px 50px' ,borderRadius:"20px",fontWeight:"500" ,color:"#383838" ,background:'#ffffff'}}>تسجيل الدخول</Link>
-              </Form>
+                    {token ? (<>
                 <div className='nav-cart mx-4 ' style={{color:'#ffffff'}}>
                 <div class="btn-group">
 <button class=" dropdown-toggle hidden-arrow nav-cart " style={{background:"transparent",color:'#ffffff',boxShadow:'none',border:'none'}} type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -491,7 +500,48 @@ const Home = () => {
              
 
               </div>
+                <Dropdown>
+      <Dropdown.Toggle  id="dropdown-basic" style={{background:"transparent",border:'none',outline:'none'}}>
+        <img src={user} alt=""  className='img-fluid' style={{width:'50px'}}/>
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu style={{width:'auto'}}>
+        <Link to='' className='text-decoration-none '>
+        <Dropdown.Item  style={{textAlign:'right' ,padding:'10px 40px'}}>الملف الشخصي</Dropdown.Item>
+        
+        </Link>
+        <Link to='' className='text-decoration-none '>
+                <Dropdown.Item  style={{textAlign:'right' ,padding:'10px 40px'}}>المحفظة الشخصية</Dropdown.Item>
+
+        </Link>
+        <Link to='' className='text-decoration-none '>
+                <Dropdown.Item  style={{textAlign:'right' ,padding:'10px 40px'}}>طلباتي</Dropdown.Item>
+
+        </Link>
+        <Link to='' className='text-decoration-none '>
+                <Dropdown.Item  style={{textAlign:'right' ,padding:'10px 40px'}}>العنوانين المحفوظة</Dropdown.Item>
+        </Link>
+        <Link  className='text-decoration-none ' onClick={()=>handlelogout()}>
+                <Dropdown.Item className='text-danger'   style={{textAlign:'right' ,padding:'10px 40px'}}>تسجيل الخروج</Dropdown.Item>
+
+        </Link>
+      </Dropdown.Menu>
+    </Dropdown>
+              
+              </>):(<>
+              
+               <Form className="d-flex mx-4">
+                
+                <Link to='/login'  variant="outline-success login-btn" className='text-decoration-none' style={{padding:'10px 50px' ,borderRadius:"20px",fontWeight:"500" ,color:"#383838" ,background:'#ffffff'}}>تسجيل الدخول</Link>
+              </Form>
+              </>)}
+              
+               
+           
               </div>
+
+      
+
                   </Offcanvas.Body>
                 </Navbar.Offcanvas>
               </Container>
@@ -551,7 +601,7 @@ const Home = () => {
           <div className="col-lg-5 col-md-6 col-sm-12"data-aos="fade-down" >
           <div className='home_img ' style={{position:'relative'}} >
           <img src={homeimg} alt=""  className='img-fluid' />
-          <img src={homeimg2} alt=""  className='img-fluid' style={{position:'absolute',width:'40%' ,right:"60%" ,top:'67%',bottom:"0"}}/>
+          
         </div>
             </div>
           

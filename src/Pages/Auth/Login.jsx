@@ -1,15 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import Button from "react-bootstrap/Button";
+import Modal from 'react-bootstrap/Modal';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ForgetPassApi, LoginApi, OTP } from "../../APi/slices/Auth/Authslice";
+import { ForgetPassApi, LoginApi, OTP, Reset_password } from "../../APi/slices/Auth/Authslice";
 
 const Login = () => {
   // Login api
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [modal, setModal] = useState(false);
+  const [restpassword, setrestpassword] = useState("");
+  const [restconfirmpassword, setrestconfirmpassword] = useState("");
+  const [forgetmodal, setforgetmodal] = useState(false);
+  const [otpmodal, setotpmodal] = useState(false);
+  const [reseptpassmodal, setreseptpassmodal] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const status = useSelector((state) => state.auth.status);
@@ -61,7 +67,11 @@ const Login = () => {
 
     console.log(datalogin);
     await dispatch(LoginApi(datalogin)).then((result) => {
-      if (result.payload) {
+      console.log(result)
+      if (result.payload?.status === true ) {
+         navigate('/')
+      }else{
+      
         setErrors(result.payload?.errors);
       }
 
@@ -94,11 +104,11 @@ const Login = () => {
 
     await dispatch(ForgetPassApi(forgetdata)).then((result) => {
       console.log(result);
-      //  if (result.payload?.status === true){
+       if (result.payload?.status === true){
 
-      //      setModal(true)
-
-      // }
+           setotpmodal(true)
+          setforgetmodal(false)
+      }
     });
   };
   const handleOtpbtn = async (e) => {
@@ -111,16 +121,46 @@ const Login = () => {
 
     console.log(dataOTP);
     await dispatch(OTP(dataOTP)).then((result) => {
-      if (result.payload) {
+      if (result.payload.status === true) {
+      
+        setreseptpassmodal(true);
+        setotpmodal(false)
+      }else{
+      
         setErrors(result.payload?.errors);
-        setModal(true);
       }
 
-      if (result.status === "success") {
-        navigate("/"); // Navigate to the desired route
-      }
+      
     });
   };
+  const handlerestbtn=async(e)=>{
+    e.preventDefault();
+   let values={
+     'email':email,
+     'otp':otp.join(""),
+     'password':restpassword,
+     'confirmation_password': restconfirmpassword,
+  
+  
+    }
+    await dispatch(Reset_password(values)).then((res)=>{
+    console.log(res)
+     if(res.payload?.status === true){
+      setreseptpassmodal(false)
+    
+    
+    }else{
+      
+      setErrors(result.payload?.errors);
+    }
+    
+    
+    
+    
+    })
+  
+  
+  }
   //  password Visible
   const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => {
@@ -197,7 +237,7 @@ const Login = () => {
                   >
                     <input
                       name="password"
-                      value={email}
+                      value={password}
                       type={passwordVisible ? "text" : "password"}
                       class="form-control form-control-lg "
                       style={{
@@ -258,8 +298,7 @@ const Login = () => {
                   <div>
                     <Link
                       className="text-decoration-none fw-bold"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
+                       onClick={()=>setforgetmodal(true)}
                       style={{ color: "#6DC177" }}
                     >
                       نسيت كلمة المرور ؟{" "}
@@ -300,26 +339,13 @@ const Login = () => {
               </div>
             </div>
             {/* Forget password Modal */}
-
-            <div
-              class="modal fade"
-              id="exampleModal"
-              tabindex="-1"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header" style={{ border: "none" }}>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div className="w-100 d-flex align-items-center justify-content-center ">
+            
+            <Modal size="lg" show={forgetmodal} onHide={()=>setforgetmodal(false)}>
+        <Modal.Header style={{ border: "none" }} closeButton>
+         
+        </Modal.Header>
+        <Modal.Body>
+        <div className="w-100 d-flex align-items-center justify-content-center ">
                       <div
                         className="forget_pass  d-flex align-items-center text-center justify-content-center  flex-column "
                         style={{ width: "75%" }}
@@ -366,12 +392,7 @@ const Login = () => {
                           <Button
                             variant="outline-success btn"
                             onClick={handleforgetbtn}
-                            {...(modal === true
-                              ? {
-                                  "data-bs-toggle": "modal",
-                                  "data-bs-target": "#exampleModal3",
-                                }
-                              : {})}
+                          
                             style={{
                               padding: "17px 50px",
                               fontWeight: "500",
@@ -401,31 +422,19 @@ const Login = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+        </Modal.Body>
+       
+      </Modal>
 
             {/* OTP Modal */}
-            <div
-              class="modal fade"
-              id="exampleModal2"
-              tabindex="-1"
-              aria-labelledby="exampleModalLabel2"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header" style={{ border: "none" }}>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div className="w-100 d-flex align-items-center justify-content-center ">
+           
+<Modal  size="lg" show={otpmodal} onHide={()=>setModal(false)}>
+        <Modal.Header style={{ border: "none" }} closeButton>
+          
+        </Modal.Header>
+        <Modal.Body>
+        <div className="w-100 d-flex align-items-center justify-content-center ">
                       <div
                         className="forget_pass  d-flex align-items-center text-center justify-content-center  flex-column "
                         style={{ width: "75%" }}
@@ -465,12 +474,7 @@ const Login = () => {
                           <Button
                             variant="outline-success btn"
                             onClick={handleOtpbtn}
-                            {...(modal === true
-                              ? {
-                                  "data-bs-toggle": "modal",
-                                  "data-bs-target": "#exampleModal3",
-                                }
-                              : {})}
+                         
                             style={{
                               padding: "17px 50px",
                               fontWeight: "500",
@@ -500,31 +504,19 @@ const Login = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+        </Modal.Body>
+      
+      </Modal>
             {/* change password Modal */}
-            <div
-              class="modal fade"
-              id="exampleModal3"
-              tabindex="-1"
-              aria-labelledby="exampleModalLabel3"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header" style={{ border: "none" }}>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div className="w-100 d-flex align-items-center justify-content-center ">
+        
+
+            <Modal size="lg" show={reseptpassmodal} onHide={()=>setreseptpassmodal(false)}>
+        <Modal.Header style={{ border: "none" }} closeButton>
+          
+        </Modal.Header>
+        <Modal.Body>
+
+        <div className="w-100 d-flex align-items-center justify-content-center ">
                       <div
                         className="forget_pass  d-flex align-items-center text-center justify-content-center  flex-column "
                         style={{ width: "75%" }}
@@ -556,6 +548,7 @@ const Login = () => {
                               }}
                               placeholder="name@example.com"
                               id="floatingInputEmail1"
+                              onChange={(e)=>setrestpassword(e.target.value)}
                             />
                             <span
                               className="password-toggle"
@@ -596,6 +589,7 @@ const Login = () => {
                               }}
                               placeholder="name@example.com"
                               id="floatingInputEmail1"
+                              onChange={(e)=>setrestconfirmpassword(e.target.value)}
                             />
                             <span
                               className="password-toggle"
@@ -617,7 +611,8 @@ const Login = () => {
                         <div className="d-flex align-items-center  mt-5 justify-content-center w-100">
                           <Button
                             variant="outline-success btn"
-                            // onClick={handleforgetbtn}
+                         
+                            onClick={handlerestbtn}
                             style={{
                               padding: "17px 50px",
                               fontWeight: "500",
@@ -634,10 +629,11 @@ const Login = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+
+        </Modal.Body>
+       
+      </Modal>
           </div>
         </div>
       </div>
